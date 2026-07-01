@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Brendlar — AutoMarket{% endblock %}
+{% block nav_brands %}active{% endblock %}
+
+{% block content %}
+    <section class="section container">
+        <div class="section-head">
+            <h2>Barcha brendlar</h2>
+        </div>
+        <div class="brand-strip" style="gap:18px;">
+            {% for brand in brands %}
+                <a href="{% url 'catalog' %}?brand={{ brand.id }}" class="brand-chip"
+                   style="padding:20px 26px;font-size:19px;">
+                    {{ brand.name }} <span class="count">({{ brand.cars_count }} ta e'lon)</span>
+                </a>
+            {% empty %}
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Chevrolet <span class="count">(128 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Kia <span class="count">(94 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Hyundai <span class="count">(76 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Toyota <span class="count">(61 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">BYD <span class="count">(38 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Damas <span class="count">(22 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Lada <span class="count">(19 ta e'lon)</span></a>
+                <a href="#" class="brand-chip" style="padding:20px 26px;font-size:19px;">Malibu <span class="count">(14 ta e'lon)</span></a>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

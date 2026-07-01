@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Katalog — AutoMarket{% endblock %}
+{% block nav_catalog %}active{% endblock %}
+
+{% block content %}
+    <section class="section container">
+        <div class="section-head" style="margin-bottom:8px;">
+            <h2>Avtomobillar katalogi</h2>
+        </div>
+
+        <div class="catalog-layout">
+            <aside class="filters-panel">
+                <h4>Filtrlar</h4>
+                <form method="get">
+                    <div class="filter-group">
+                        <label>Brend</label>
+                        <select name="brand">
+                            <option value="">Barchasi</option>
+                            {% for brand in brands %}
+                                <option value="{{ brand.id }}"
+                                        {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Model</label>
+                        <select name="model">
+                            <option value="">Barchasi</option>
+                            {% for model in models %}
+                                <option value="{{ model.id }}">{{ model.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Ishlab chiqarilgan yili</label>
+                        <div class="filter-range">
+                            <input type="number" name="year_from" placeholder="dan">
+                            <input type="number" name="year_to" placeholder="gacha">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Narx, so'm</label>
+                        <div class="filter-range">
+                            <input type="number" name="price_from" placeholder="dan">
+                            <input type="number" name="price_to" placeholder="gacha">
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Uzatma qutisi</label>
+                        <select name="transmission">
+                            <option value="">Barchasi</option>
+                            <option value="automatic">Avtomat</option>
+                            <option value="manual">Mexanika</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Filtrlash</button>
+                </form>
+            </aside>
+
+            <div>
+                <div class="catalog-toolbar">
+                    <span class="result-count">{{ cars|length|default:"128" }} ta e'lon topildi</span>
+                    <select name="sort" style="border:1px solid var(--border);border-radius:6px;padding:8px 12px;">
+                        <option>Yangi qo'shilganlar</option>
+                        <option>Narx: arzondan qimmatga</option>
+                        <option>Narx: qimmatdan arzonga</option>
+                        <option>Yil bo'yicha</option>
+                    </select>
+                </div>
+
+                <div class="car-grid">
+                    {% for car in cars %}
+                        {% include "includes/car_card.html" with car=car %}
+                    {% empty %}
+                        {% include "includes/car_card.html" %}
+                        {% include "includes/car_card.html" %}
+                        {% include "includes/car_card.html" %}
+                        {% include "includes/car_card.html" %}
+                        {% include "includes/car_card.html" %}
+                        {% include "includes/car_card.html" %}
+                    {% endfor %}
+                </div>
+
+                <div class="pagination">
+                    <a href="?page=1">«</a>
+                    <span class="active">1</span>
+                    <a href="?page=2">2</a>
+                    <a href="?page=3">3</a>
+                    <a href="?page=2">»</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

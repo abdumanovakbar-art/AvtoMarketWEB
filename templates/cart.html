@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Savat — AutoMarket{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <h1>Savat</h1>
+    </div>
+
+    <div class="cart-list">
+        {% for item in items %}
+            <div class="cart-item">
+                <a href="{% url 'car_detail' item.car.pk %}" class="cart-item-link">
+                    <div class="cart-item-img">
+                        {% if item.car.main_photo %}
+                            <img src="{{ item.car.main_photo }}" alt="{{ item.car.model }}">
+                        {% else %}
+                            <div class="no-photo">🚗</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h3>{{ item.car.model }}</h3>
+                        <p class="car-price">{{ item.car.price|floatformat:0 }} so'm</p>
+                        <div class="meta">
+                            <span>{{ item.car.year }}-yil</span>
+                            <span>{{ item.car.mileage }} km</span>
+                        </div>
+                    </div>
+                </a>
+                <form action="{% url 'remove_from_cart' item.pk %}" method="post" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="link-btn">O'chirish</button>
+                </form>
+            </div>
+        {% empty %}
+            <p class="empty-state">Savat bo'sh.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

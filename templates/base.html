@@ -4,96 +4,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}AutoMarket — Avtomobillar bozori{% endblock %}</title>
+  <title>{% block title %}Admin panel — AutoMarket{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  {% block extra_head %}{% endblock %}
 </head>
 <body>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="{% url 'home' %}" class="logo">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <div class="logo">
         <span class="needle"></span>
         AutoMarket
-      </a>
-
-      <nav class="main-nav">
-        <a href="{% url 'home' %}" class="{% block nav_home %}{% endblock %}">Bosh sahifa</a>
-        <a href="{% url 'catalog' %}" class="{% block nav_catalog %}{% endblock %}">Katalog</a>
-        <a href="{% url 'brands' %}" class="{% block nav_brands %}{% endblock %}">Brendlar</a>
-        <a href="#" class="{% block nav_about %}{% endblock %}">Biz haqimizda</a>
-        <a href="#" class="{% block nav_contact %}{% endblock %}">Aloqa</a>
-      </nav>
-
-      <div class="header-actions">
-        <a href="{% url 'favorites' %}" class="icon-btn" title="Sevimlilar" aria-label="Sevimlilar">
-          ♥
-          {% if favorites_count %}<span class="badge-count">{{ favorites_count }}</span>{% endif %}
-        </a>
-        <a href="{% url 'cart' %}" class="icon-btn" title="Savat" aria-label="Savat">
-          🛒
-          {% if cart_count %}<span class="badge-count">{{ cart_count }}</span>{% endif %}
-        </a>
-        {% if user.is_authenticated %}
-          <a href="{% url 'profile' %}" class="icon-btn" title="Profil" aria-label="Profil">👤</a>
-        {% else %}
-          <a href="{% url 'login' %}" class="btn btn-primary btn-sm">Kirish</a>
-        {% endif %}
       </div>
-    </div>
-  </header>
-
-  <main>
-    {% if messages %}
-      <div class="container" style="padding-top:20px;">
+      <nav>
+        <a href="{% url 'admin_dashboard' %}" class="{% block nav_dashboard %}{% endblock %}">📊 Statistika</a>
+        <a href="{% url 'admin_cars' %}" class="{% block nav_cars %}{% endblock %}">🚗 Avtomobillar</a>
+        <a href="{% url 'admin_brands' %}" class="{% block nav_brands %}{% endblock %}">🏷️ Brendlar</a>
+        <a href="{% url 'admin_orders' %}" class="{% block nav_orders %}{% endblock %}">📦 Buyurtmalar</a>
+        <a href="{% url 'admin_users' %}" class="{% block nav_users %}{% endblock %}">👥 Foydalanuvchilar</a>
+        <a href="#">⚙️ Sozlamalar</a>
+        <a href="{% url 'home' %}" style="margin-top:20px;color:#9296AC;">← Saytga qaytish</a>
+      </nav>
+    </aside>
+    <div class="admin-main">
+      {% if messages %}
         {% for message in messages %}
           <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
-      </div>
-    {% endif %}
-
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <h5>AutoMarket</h5>
-          <p>O'zbekistondagi eng qulay avtomobil savdo platformasi. Sotib oling, soting, taqqoslang — barchasi bir joyda.</p>
-        </div>
-        <div>
-          <h5>Bo'limlar</h5>
-          <ul>
-            <li><a href="{% url 'catalog' %}">Katalog</a></li>
-            <li><a href="{% url 'brands' %}">Brendlar</a></li>
-            <li><a href="{% url 'favorites' %}">Sevimlilar</a></li>
-            <li><a href="{% url 'cart' %}">Savat</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5>Yordam</h5>
-          <ul>
-            <li><a href="#">Ko'p beriladigan savollar</a></li>
-            <li><a href="#">Qoidalar</a></li>
-            <li><a href="#">Maxfiylik siyosati</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5>Aloqa</h5>
-          <ul>
-            <li>+998 90 123 45 67</li>
-            <li>info@automarket.uz</li>
-            <li>Toshkent, O'zbekiston</li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© {% now "Y" %} AutoMarket. Barcha huquqlar himoyalangan.</span>
-        <span>t.me/AutoMarketBot</span>
-      </div>
+      {% endif %}
+      {% block admin_content %}{% endblock %}
     </div>
-  </footer>
-
+  </div>
 </body>
 </html>

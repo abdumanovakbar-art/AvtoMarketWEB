@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Sevimlilar — AutoMarket{% endblock %}
+
+{% block content %}
+    <div class="page-heading">
+        <h1>Sevimli e'lonlar</h1>
+    </div>
+
+    <div class="car-grid">
+        {% for fav in favorites %}
+            <a href="{% url 'car_detail' fav.car.pk %}" class="car-card">
+                <div class="car-card-img">
+                    {% if fav.car.main_photo %}
+                        <img src="{{ fav.car.main_photo }}" alt="{{ fav.car.model }}">
+                    {% else %}
+                        <div class="no-photo">🚗</div>
+                    {% endif %}
+                </div>
+                <div class="car-card-body">
+                    <h3>{{ fav.car.model }}</h3>
+                    <p class="car-price">{{ fav.car.price|floatformat:0 }} so'm</p>
+                    <div class="meta">
+                        <span>{{ fav.car.year }}-yil</span>
+                        <span>{{ fav.car.mileage }} km</span>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <p class="empty-state">Sevimlilar ro'yxati bo'sh.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

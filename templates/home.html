@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}AutoMarket — Avtomobil sotib oling va soting{% endblock %}
+{% block nav_home %}active{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-eyebrow">01 — ISHONCHLI AVTO-BOZOR</div>
+      <h1>O'zingizga mos <span>avtomobilni</span> shu yerdan toping</h1>
+      <p>Minglab e'lonlar, tekshirilgan sotuvchilar va real narxlar. Telegram bot orqali ham, veb-sayt orqali ham — qulay tarzda tanlang.</p>
+
+      <form class="search-console" action="{% url 'catalog' %}" method="get">
+        <select name="brand">
+          <option value="">Brend</option>
+          {% for brand in brands %}
+            <option value="{{ brand.id }}">{{ brand.name }}</option>
+          {% endfor %}
+        </select>
+        <select name="year">
+          <option value="">Ishlab chiqarilgan yili</option>
+          <option value="2024">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+        </select>
+        <input type="text" name="q" placeholder="Model nomi...">
+        <button type="submit">Qidirish</button>
+      </form>
+    </div>
+
+    <div class="hero-panel">
+      <img src="{% static 'img/hero-car.jpg' %}" alt="Tavsiya etilgan avtomobil">
+      <div class="hero-panel-footer">
+        <span class="model-name">Chevrolet Onix, 2024</span>
+        <span class="plate plate--price"><span class="plate-stripe"></span><span class="plate-text">185 000 000 so'm</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <h2>Brendlar bo'yicha qidiring</h2>
+    <a href="{% url 'brands' %}" class="see-all">Barchasi →</a>
+  </div>
+  <div class="brand-strip">
+    {% for brand in brands %}
+      <a href="{% url 'catalog' %}?brand={{ brand.id }}" class="brand-chip">
+        {{ brand.name }} <span class="count">({{ brand.cars_count }})</span>
+      </a>
+    {% empty %}
+      <a href="#" class="brand-chip">Chevrolet <span class="count">(128)</span></a>
+      <a href="#" class="brand-chip">Kia <span class="count">(94)</span></a>
+      <a href="#" class="brand-chip">Hyundai <span class="count">(76)</span></a>
+      <a href="#" class="brand-chip">Toyota <span class="count">(61)</span></a>
+      <a href="#" class="brand-chip">BYD <span class="count">(38)</span></a>
+      <a href="#" class="brand-chip">Damas <span class="count">(22)</span></a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <h2>Eng so'nggi e'lonlar</h2>
+    <a href="{% url 'catalog' %}" class="see-all">Barcha e'lonlar →</a>
+  </div>
+
+  <div class="car-grid">
+    {% for car in featured_cars %}
+      {% include "includes/car_card.html" with car=car %}
+    {% empty %}
+      {% include "includes/car_card.html" %}
+      {% include "includes/car_card.html" %}
+      {% include "includes/car_card.html" %}
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

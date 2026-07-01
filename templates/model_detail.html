@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{{ car_model }} — AutoMarket{% endblock %}
+
+{% block content %}
+    <a href="{% url 'brand_detail' car_model.brand.pk %}" class="back-link">&larr; Orqaga</a>
+
+    <div class="page-heading">
+        <h1>{{ car_model }}</h1>
+        <p class="subtitle">{{ cars.count }} ta e'lon mavjud</p>
+    </div>
+
+    <div class="car-grid">
+        {% for car in cars %}
+            <a href="{% url 'car_detail' car.pk %}" class="car-card">
+                <div class="car-card-img">
+                    {% if car.main_photo %}
+                        <img src="{{ car.main_photo }}" alt="{{ car.model }}">
+                    {% else %}
+                        <div class="no-photo">🚗</div>
+                    {% endif %}
+                </div>
+                <div class="car-card-body">
+                    <h3>{{ car.model }}</h3>
+                    <p class="car-price">{{ car.price|floatformat:0 }} so'm</p>
+                    <div class="meta">
+                        <span>{{ car.year }}-yil</span>
+                        <span>{{ car.mileage }} km</span>
+                        {% if car.city %}<span>{{ car.city }}</span>{% endif %}
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <p class="empty-state">Bu model uchun e'lonlar yo'q.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

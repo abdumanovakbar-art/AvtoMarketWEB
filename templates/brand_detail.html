@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ brand.name }} — AutoMarket{% endblock %}
+
+{% block content %}
+    <a href="{% url 'home' %}" class="back-link">&larr; Orqaga</a>
+
+    <div class="page-heading">
+        <h1>{{ brand.name }}</h1>
+        <p class="subtitle">Modelni tanlang</p>
+    </div>
+
+    <div class="model-list">
+        {% for m in models_list %}
+            <a href="{% url 'model_detail' m.pk %}" class="model-card">
+                <span>{{ m.name }}</span>
+                <span class="model-count">{{ m.cars.count }} ta e'lon &rarr;</span>
+            </a>
+        {% empty %}
+            <p class="empty-state">Bu brend uchun modellar qo'shilmagan.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
